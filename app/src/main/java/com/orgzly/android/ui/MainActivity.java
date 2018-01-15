@@ -163,6 +163,25 @@ public class MainActivity extends CommonActivity
         if (AppPreferences.newNoteNotification(this)) {
             Notifications.createNewNoteNotification(this);
         }
+
+        // TODO what happens after activity is restored?
+        Intent intent = getIntent();
+        if (intent != null) {
+            switch (intent.getAction()) {
+                case Intent.ACTION_VIEW: {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uri", intent.getDataString());
+                    mImportChosenBook = bundle;
+                    // TODO how to open file after that?
+//                    mImportChosenBook = ko
+//                    Log.w("HELLO", String.valueOf(intent.getData()));
+//                    mSyncFragment.importBookFromUri("test", BookName.Format.ORG, intent.getData());
+                    break;
+                }
+                default:
+                    break; // TODO maybe, throw?
+            }
+        }
     }
 
     /**
@@ -579,6 +598,7 @@ public class MainActivity extends CommonActivity
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
 
+                    // TODO here
                     Bundle bundle = new Bundle();
                     bundle.putString("uri", uri.toString());
 
